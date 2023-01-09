@@ -16,7 +16,7 @@ export default function Home() {
       </Head>
       <main className={styles.main} style={{justifyContent: 'start'}}>
         <div >
-          <p style={{fontSize: '2rem'}}>
+          <p style={{fontSize: '1.5rem'}}>
             MICE 2.0 유니티 WEB GL 버전과 Three JS 버전.
           </p>
         </div>

@@ -17,7 +17,8 @@ export default function Home() {
       <main className={styles.main} style={{justifyContent: 'start'}}>
         <div >
           <p style={{fontSize: '1.5rem'}}>
-            MICE 2.0 유니티 WEB GL 버전과 Three JS 버전.
+             MICE 2.0  샘플
+            {/* MICE 2.0 유니티 WEB GL 버전과 Three JS 버전. */}
           </p>
         </div>
 
@@ -30,14 +31,14 @@ export default function Home() {
             style={{ margin:'50px', fontSize: '1.3rem'}}
           >
             <h2 className={inter.className}>
-            MICE 유니티 버전 <span>-&gt;</span>
+             유니티 MICE 샘플 <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              유니티 버전 mice 샘플 보기
+              유니티 mice 버전  샘플 보기
             </p>
           </a>
           
-          <a
+          {/* <a
             href="/threejs"
             className={styles.card}
             target="_blank"
@@ -50,7 +51,7 @@ export default function Home() {
             <p className={inter.className}>
                Three JS 버전 샘플 보기
             </p>
-          </a>
+          </a> */}
  
         </div>
       </main>

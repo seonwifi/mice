@@ -1,9 +1,9 @@
 const cacheName = "DefaultCompany-MICE-0.1.0";
 const contentToCache = [
-    "Build/web.loader.js",
-    "Build/web.framework.js.unityweb",
-    "Build/web.data.unityweb",
-    "Build/web.wasm.unityweb",
+    "Build/unity.loader.js",
+    "Build/unity.framework.js.unityweb",
+    "Build/unity.data.unityweb",
+    "Build/unity.wasm.unityweb",
     "TemplateData/style.css"
 
 ];

@@ -2,6 +2,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../../styles/Home.module.css'
+import ThreeView from '../../src/components/MiceJSView'
+import Test from './test'
+import MiceJSView from '../../src/components/MiceJSView'
 
 const inter = Inter({ subsets: ['latin'] }) 
 export default function Home() {
@@ -14,26 +17,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main} style={{justifyContent: 'start'}}>
-        <div >
-          <p style={{fontSize: '1.5rem'}}>
-             준비중
-          </p>
+        <div>
+          <MiceJSView> 
+          </MiceJSView>
         </div>
 
-        <div   style={{display: "flex", marginTop:'200px'}} >
-          <a
-            href="./"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ margin:'50px', fontSize: '1.3rem'}}
-          >
-            <h2 className={inter.className}>
-            메인 페이지 <span>-&gt;</span>
-            </h2> 
-          </a> 
- 
-        </div>
       </main>
     </>
   )

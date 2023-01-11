@@ -38,7 +38,7 @@ export default function Home() {
             </p>
           </a>
           
-          {/* <a
+          <a
             href="/threejs"
             className={styles.card}
             target="_blank"
@@ -51,7 +51,7 @@ export default function Home() {
             <p className={inter.className}>
                Three JS 버전 샘플 보기
             </p>
-          </a> */}
+          </a>
  
         </div>
       </main>

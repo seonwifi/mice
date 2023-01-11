@@ -1,10 +1,14 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { MiceJS } from "../mice/MiceJS"; 
   
 const countContext =  createContext({});
 let miceThreeJS : MiceJS;
  
-const MiceJSView = () => { 
+interface ParamProps {
+  children: ReactNode; 
+}
+
+const MiceJSView = ({children}: ParamProps) => { 
 
   useEffect(()=>{ 
     if(!miceThreeJS){

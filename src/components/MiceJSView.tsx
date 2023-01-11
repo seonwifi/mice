@@ -20,7 +20,7 @@ const MiceJSView = ({children}: ParamProps) => {
 
     return (
       <countContext.Provider value={miceThreeJS}>
-        <div id = 'micejsview'> 
+        <div id = 'micejsview' style={{width:'100%', height:'100%'}}> 
         </div>
       </countContext.Provider> 
       );

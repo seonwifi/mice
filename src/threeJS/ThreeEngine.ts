@@ -18,7 +18,7 @@ export class ThreeEngine{
         const scope = this;
         scope.scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 100000 );
-        var renderer = new THREE.WebGLRenderer();
+        var renderer = new THREE.WebGLRenderer({ antialias: true });
 
         scope.controls = new OrbitControls( camera, renderer.domElement );
         //this.controls.addEventListener( 'change', render );
@@ -26,14 +26,37 @@ export class ThreeEngine{
         camera.position.set(-10.041, 10.9, -0.01);
         scope.controls.update(); 
 
-        const directionalLight1 = new THREE.DirectionalLight( 0xffeeff, 0.8 );
-        directionalLight1.position.set( 1, 1, 1 );
+        const directionalLight1 = new THREE.DirectionalLight( 0xffeeff, 1.8 );
+        directionalLight1.position.set( 30, 60, 30 );
+        
+        directionalLight1.castShadow = true;
+        directionalLight1.shadow.camera.top     = 17;
+        directionalLight1.shadow.camera.bottom  = -17;
+        directionalLight1.shadow.camera.left    = -17;
+        directionalLight1.shadow.camera.right   = 17;
+        directionalLight1.shadow.camera.near = 0.1;
+        directionalLight1.shadow.camera.far = 500;
+        directionalLight1.shadow.bias = -0.0001;
+        directionalLight1.shadow.mapSize.width = 1024;
+        directionalLight1.shadow.mapSize.height = 1024;
+        directionalLight1.shadow.radius = 3;
+        directionalLight1.shadow.blurSamples = 8;
+        directionalLight1.shadow.normalBias = 0.001;
+       //
         scope.scene.add( directionalLight1 );
+        // const helper = new THREE.CameraHelper(directionalLight1.shadow.camera)
+        // scope.scene.add(helper);
 
-        const ambient = new THREE.AmbientLight( 0x777777 );
+        const ambient = new THREE.AmbientLight( 0x555555 );
         scope.scene.add( ambient );
         
-        
+        renderer.shadowMap.autoUpdate = true;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.VSMShadowMap;
+        //renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 2;
+        renderer.setPixelRatio( window.devicePixelRatio );//안해주면 모바일에서 흐리게 보임
+
         renderer.setSize( window.innerWidth, window.innerHeight);
         viewDock.appendChild( renderer.domElement );
          //var geometry = new THREE.BoxGeometry( 1, 1, 1 );
@@ -48,6 +71,15 @@ export class ThreeEngine{
 
          scope.scene.add( scope.rootObj );
          camera.position.z = 5;
+
+         const material = new THREE.MeshPhongMaterial( { color: 0xbbbbbb  } );
+         const planeSize : number = 400;
+         const geometry = new THREE.PlaneGeometry( planeSize, planeSize );
+         geometry.rotateX(  -Math.PI / 2 );
+         const mesh = new THREE.Mesh( geometry, material );
+         mesh.receiveShadow = true;
+         
+         scope.rootObj?.add(mesh);
 
          let renderScene = scope.scene;
         var animate = function () {
@@ -109,20 +141,11 @@ export class ThreeEngine{
         loader.setDRACOLoader( dracoLoader );
         loader.load( path, function ( gltf ) {
 
-            const model = gltf.scene;
+            const model = gltf.scene; 
             scope.add(model);
             if(onLoad){
                 onLoad(model);
-            }
-            // model.position.set( 1, 1, 0 );
-            // model.scale.set( 0.01, 0.01, 0.01 );
-            // scene.add( model );
-
-            // mixer = new THREE.AnimationMixer( model );
-            // mixer.clipAction( gltf.animations[ 0 ] ).play();
-
-            // animate();
-
+            } 
         }, function(event){
             if(onProgress){
                 onProgress(event);
@@ -161,7 +184,20 @@ export class ThreeEngine{
         } );
     }
 
-    add(obj: THREE.Object3D){ 
+    add(obj : THREE.Object3D){ 
+        if(!obj){
+            return;
+        }
+
+        obj.traverse((tobj)=>{
+            if(tobj instanceof THREE.Mesh){
+                let tMesh : THREE.Mesh = tobj  as THREE.Mesh;
+                tMesh.castShadow = true; //default is false
+                tMesh.receiveShadow = true; //default
+            }
+
+        });
+
         this.rootObj?.add(obj);
     }
 

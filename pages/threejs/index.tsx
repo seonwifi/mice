@@ -15,8 +15,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main} style={{justifyContent: 'start'}}>
-        <div>
+      <main className={styles.main} style={{justifyContent: 'start', padding:'0px'}}>
+        <div style={{width:'100%', height:'100%'}}>
           <MiceJSView> 
           </MiceJSView>
         </div>

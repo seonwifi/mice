@@ -14,7 +14,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main} style={{justifyContent: 'start'}}>
+      <main className={styles.main} style={{justifyContent: 'start', padding:'0px'}}>
         <div >
           <p style={{fontSize: '1.5rem'}}>
              MICE 2.0  샘플
@@ -28,13 +28,13 @@ export default function Home() {
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ margin:'50px', fontSize: '1.3rem'}}
+            style={{ margin:'10px', fontSize: '1.2rem', padding:'5px'}}
           >
-            <h2 className={inter.className}>
-             유니티 MICE 샘플 <span>-&gt;</span>
+            <h2>
+             유니티 MICE 샘플  
             </h2>
             <p className={inter.className}>
-              유니티 mice 버전  샘플 보기
+              유니티 버전  샘플 보기
             </p>
           </a>
           
@@ -43,10 +43,10 @@ export default function Home() {
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ margin:'50px', fontSize: '1.3rem'}}
+            style={{ margin:'10px', fontSize: '1.2rem', padding:'5px'}}
           >
             <h2 className={inter.className}>
-            MICE Three JS 버전 <span>-&gt;</span>
+            Three JS MICE 샘플  
             </h2>
             <p className={inter.className}>
                Three JS 버전 샘플 보기

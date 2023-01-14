@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { Camera, Renderer, WebGLRenderer, WebGLRendererParameters } from "three";
+import { Object3D } from "three/src/Three";
 import { World } from "../World/World";
 
  
@@ -7,7 +8,7 @@ import { World } from "../World/World";
     private renderer? : WebGLRenderer = undefined;
     private world? : World = undefined; 
     private camera? : Camera= undefined; 
-
+    private targetSize = new THREE.Vector2();
     //{ antialias: true }
     constructor(parameters?: WebGLRendererParameters, viewDock? : HTMLElement | null){
         this.renderer = new WebGLRenderer(parameters);
@@ -21,6 +22,7 @@ import { World } from "../World/World";
         this.renderer.setSize( window.innerWidth, window.innerHeight);
         
         viewDock?.appendChild( this.renderer.domElement );
+ 
     }
      
     dispose(){
@@ -47,14 +49,9 @@ import { World } from "../World/World";
         }
 
         const renderScene = this.world.getScene();
-        let renderCamera : Camera | undefined;
-
-        //const renderCamera = this.scene.getRenderCamera();
-        if(this.camera){
-            renderCamera = this.camera;
-        } 
-        if(renderScene && renderCamera){
-            this.renderer?.render(renderScene, renderCamera);
+ 
+        if(renderScene && this.camera){ 
+            this.renderer?.render(renderScene, this.camera);
         } 
     }
 
@@ -79,4 +76,15 @@ import { World } from "../World/World";
         }
         return this.renderer;
     }
+
+    setSize(width: number, height: number){ 
+        this.renderer?.setSize(width, height); 
+        this.renderer?.getSize(this.targetSize);
+        
+        if(this.camera instanceof THREE.PerspectiveCamera){
+            this.camera.aspect = this.targetSize.x /this.targetSize.y;
+            this.camera.updateProjectionMatrix();
+        } 
+    } 
+    
  }

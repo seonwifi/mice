@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import { WebGLRenderer } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RenderUpdateData } from "../Common/EngineDefine";
@@ -12,12 +13,17 @@ export class WorldScreen implements IUpdate<RenderUpdateData>{
     renderer? : GLRenderer;
     controls? : OrbitControls;
     name : string = '';
+    _onWindowResize : any;
 
     constructor(viewDock? : HTMLElement | null, sceneSource? : World  | undefined){
+
+        
         this.viewDock = viewDock;
         this.init();
         this.setRenderScene(sceneSource);
         sceneSource?.addRenderUpdate(this);
+        this._onWindowResize = this.onWindowResize.bind(this);
+        window.addEventListener( 'resize', this._onWindowResize );
     }
 
     setName (name : string){
@@ -48,6 +54,9 @@ export class WorldScreen implements IUpdate<RenderUpdateData>{
      }
 
     dispose(){
+ 
+        window.removeEventListener( 'resize', this._onWindowResize );
+
         this.controls?.dispose();
         this.renderer?.dispose();
         this.viewDock = undefined; 
@@ -83,9 +92,22 @@ export class WorldScreen implements IUpdate<RenderUpdateData>{
         scope.controls.target.set( 0, 0.2, 0 );
         cam.position.set(-10.041, 10.9, -0.01);
         scope.controls.update(); 
-        this.renderer?.setCamera(cam);
-
+        scope.renderer?.setCamera(cam);
+  
         return true;
+    }
+
+    onWindowResize(){
+
+        // this.renderer?.getWorld()?.traverse((item)=> {
+        //     if(item instanceof THREE.PerspectiveCamera){
+        //         let cam = item as THREE.PerspectiveCamera;
+        //         cam.aspect = window.innerWidth / window.innerHeight;
+        //         cam.updateProjectionMatrix();
+        //     }
+        // });
+ 
+        this.renderer?.setSize( window.innerWidth, window.innerHeight );
     }
 
     setRenderScene(sceneSource : World  | undefined){

@@ -26,7 +26,7 @@ export class ThreeEngine{
     }
  
     // getComponent<T extends IComponent>(constructor:{new ():T}): T {
-    addWorld<INIT_DATA, T extends WorldPreset>( type: (new (engine : ThreeEngine, world : World , data? : INIT_DATA | any | undefined) => T), name : string, data? : INIT_DATA | any | undefined) : World {
+    addWorld<INIT_DATA, T extends WorldPreset>( type: (new (engine : ThreeEngine, world : World , data? : INIT_DATA | any | undefined) => T), data? : INIT_DATA | any | undefined) : World {
        let scene = this.worldManager.add(type, this, data);
         return scene;
     }

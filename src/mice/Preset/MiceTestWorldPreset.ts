@@ -1,24 +1,18 @@
 import * as THREE from "three";
 import  {Vector3}  from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { Preset, ShadowParam } from "../../ThreeJS/Common/Preset";
-import { ThreeEngine } from "../../ThreeJS/Engine/ThreeEngine";
-import { World } from "../../ThreeJS/World/World";
-import { WorldScreen } from "../../ThreeJS/Screen/WorldScreen";
-import { WorldPreset } from "../../ThreeJS/World/WorldPreset";
+import { Preset, ShadowParam } from "../../ThreeEngine/Common/Preset";
+import { ThreeEngine } from "../../ThreeEngine/Engine/ThreeEngine";
+import { World } from "../../ThreeEngine/World/World";
+import { WorldScreen } from "../../ThreeEngine/Screen/WorldScreen";
+import { WorldPreset } from "../../ThreeEngine/World/WorldPreset";
 import { RotateComponent } from "../Component/RotateComponent";
 
 export class MiceTestWorldPreset extends WorldPreset{
-    viewDock? : HTMLElement | null;
+ 
     constructor(engine : ThreeEngine, world : World, data : HTMLElement){
         super();
-        this.viewDock = data;
-        this.preset(engine, world);
-    }
-
-    preset(engine : ThreeEngine, world : World){ 
-        // this.addScreen(SceneScreen, viewDock, miceTestScene);
-        //engine.addScreen<>
+ 
         const scope = this; 
  
         const bgPath = 'assets/textures/cube/Park3Med/';
@@ -75,10 +69,12 @@ export class MiceTestWorldPreset extends WorldPreset{
 
         //this.engine.loadGLB('assets/models/mice-example/mice-bg.glb');
         var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 100000 );
-        let screen = engine.addScreen(WorldScreen, this.viewDock, world);
+        let screen = engine.addScreen(WorldScreen, data, world);
         screen.setName('MiceTestWorldPreset');
         screen.setOrbitControls(camera);
     }
+
+ 
 
  
 

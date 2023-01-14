@@ -170,6 +170,7 @@ class WorldDisplayValue {
 
         this.lastWorldName = world.getName();
         let foler = parent.addFolder('World ' + WorldDisplayValue.uniqId + ' ' + this.lastWorldName);
+        foler.open();
         this.panel = foler;
         WorldDisplayValue.uniqId++;
 
@@ -181,6 +182,7 @@ class WorldDisplayValue {
         let keys = Object.keys(fpsMananger.values);
 
         this.folerFPS = foler.addFolder('fpsMananger');
+        this.folerFPS.open();
         this.folerFPS.open();
         for(const item of keys){ 
             this.updateControlls.push(this.folerFPS.add(fpsMananger.values, item));

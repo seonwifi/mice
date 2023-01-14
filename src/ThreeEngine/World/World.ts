@@ -312,4 +312,9 @@ export class World
     getPlaySeconds() : number {
         return  this.timer.getSeconds();
     }
+
+    traverse( callback : (object: Object3D)=>void){
+        let scene = this.getScene(); 
+        scene?.traverse(callback);
+    }
 }

@@ -46,8 +46,8 @@ export class Activity{
  
     //world function
  
-    protected    newWorld<INIT_DATA, T extends WorldPreset>( type: (new (engine : ThreeEngine, world : World, data? : INIT_DATA | any | undefined) => T), name : string, data? : INIT_DATA | any | undefined, playState : eScenePlayState = eScenePlayState.Play) : World {
-        let world = this.engine.addWorld(type, name, data);
+    protected    newWorld<INIT_DATA, T extends WorldPreset>( type: (new (engine : ThreeEngine, world : World, data? : INIT_DATA | any | undefined) => T), data? : INIT_DATA | any | undefined, playState : eScenePlayState = eScenePlayState.Play) : World {
+        let world = this.engine.addWorld(type,  data);
         if(playState === eScenePlayState.Play){
             this.playWorld(world);
         }

@@ -3,14 +3,16 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { WorldManager } from "../World/WorldManager";
+import { ScreenManager } from "../Screen/ScreenManager";
  
 
-export class ThreeEngine{
+export class ThreeEngineTest{
 
     private rootObj? : THREE.Object3D;
     private controls? : OrbitControls;
     private scene? : THREE.Scene;
-
+    
     constructor(){ 
     }
 

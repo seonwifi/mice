@@ -1,9 +1,10 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { MiceJS } from "../mice/MiceJS"; 
+import { MiceActivity } from "../Mice/MiceActivity"; 
   
 const countContext =  createContext({});
-let miceThreeJS : MiceJS;
- 
+let miceThreeJS : MiceActivity = new MiceActivity();
+let miceThreeJSInit = false;
+
 interface ParamProps {
   children: ReactNode; 
 }
@@ -11,12 +12,14 @@ interface ParamProps {
 const MiceJSView = ({children}: ParamProps) => { 
 
   useEffect(()=>{ 
-    if(!miceThreeJS){
+    if(miceThreeJSInit === false){
+      miceThreeJSInit = true;
       const threeView = document.getElementById('micejsview');
-      miceThreeJS = new MiceJS(); 
-      miceThreeJS.init(threeView); 
-    } 
-  }, [miceThreeJS]);
+      if(threeView){
+        miceThreeJS.init(threeView);
+      }
+    }  
+  }, []);
 
     return (
       <countContext.Provider value={miceThreeJS}>

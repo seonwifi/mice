@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../../styles/Home.module.css'
 import Test from './test'
-import MiceJSView from '../../src/components/MiceJSView'
+import MiceJSView, { eScreenView } from '../../src/components/MiceActivityView'
 
 const inter = Inter({ subsets: ['latin'] }) 
 export default function Home() {
@@ -16,8 +16,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main} style={{justifyContent: 'start', padding:'0px'}}>
-        <div style={{width:'100%', height:'100%'}}>
-          <MiceJSView> 
+        <div  style={{width:'100%', height:'100%' }}>
+          <MiceJSView  screenView = {eScreenView.quadScreen}> 
           </MiceJSView>
         </div>
 

@@ -181,7 +181,7 @@ class WorldDisplayValue {
         let fpsMananger = world.getFPSManager();
         let keys = Object.keys(fpsMananger.values);
 
-        this.folerFPS = foler.addFolder('fpsMananger');
+        this.folerFPS = foler.addFolder('fps');
         this.folerFPS.open();
         this.folerFPS.open();
         for(const item of keys){ 

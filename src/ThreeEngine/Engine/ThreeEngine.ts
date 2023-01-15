@@ -31,8 +31,8 @@ export class ThreeEngine{
         return scene;
     }
 
-    addScreen<T extends WorldScreen>(type: (new (viewDock? : HTMLElement | null, sceneSource? : World  | undefined) => T), viewDock? : HTMLElement | null, world? : World  | undefined) : T { 
-        let screen = this.screenManager.add(type, viewDock, world);
+    addScreen<T extends WorldScreen>(type: (new (viewDock? : HTMLElement | null, sceneSource? : World  | undefined) => T), htmlView? : HTMLElement | null, world? : World  | undefined) : T { 
+        let screen = this.screenManager.add(type, htmlView, world);
         return screen;
     }
 

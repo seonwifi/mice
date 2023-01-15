@@ -81,7 +81,7 @@ export class Activity{
     }
 
     //screen function
-    protected newScreen<T extends WorldScreen>(type: (new (viewDock? : HTMLElement | null, sceneSource? : World  | undefined) => T), viewDock? : HTMLElement  | null, sceneSource?  : World  | undefined) : T { 
-        return this.engine.addScreen(type, viewDock, sceneSource);
+    protected newScreen<T extends WorldScreen>(type: (new (htmlView? : HTMLElement | null, sceneSource? : World  | undefined) => T), htmlView? : HTMLElement  | null, sceneSource?  : World  | undefined) : T { 
+        return this.engine.addScreen(type, htmlView, sceneSource);
     }
 }

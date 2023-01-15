@@ -2,8 +2,8 @@ import { DeltaTimer } from "./DeltaTimer";
 export class FPSValues{
     currentFps : number = 0;
     avgFps : number = 0;
-    minFps : number = 0;
-    maxFps : number = 0;
+    minFps_10Seconds : number = 0;
+    maxFps_10Seconds : number = 0;
 }
 
 export class FPSManager{
@@ -18,8 +18,8 @@ export class FPSManager{
     start(){
         this.values.currentFps = 0;
         this.values.avgFps = 0;
-        this.values.minFps = 0;
-        this.values.maxFps = 0;
+        this.values.minFps_10Seconds = 0;
+        this.values.maxFps_10Seconds = 0;
         this.accSeconds  = 0;
         this.accCount  = 0;
         this.accResetMinMax = 0;
@@ -38,24 +38,24 @@ export class FPSManager{
         if(this.bFirst){
             this.bFirst = false;
             this.values.currentFps = fps; 
-            this.values.minFps = fps;
-            this.values.maxFps = fps;
+            this.values.minFps_10Seconds = fps;
+            this.values.maxFps_10Seconds = fps;
         }
         else{
             this.values.currentFps = fps; 
-            if(fps <  this.values.minFps){
-                this.values.minFps = fps;
+            if(fps <  this.values.minFps_10Seconds){
+                this.values.minFps_10Seconds = fps;
             }
     
-            if(fps > this.values.maxFps){
-                this.values.maxFps = fps;
+            if(fps > this.values.maxFps_10Seconds){
+                this.values.maxFps_10Seconds = fps;
             }
         }
 
         this.accResetMinMax += deltaSeconds;
         if(this.accResetMinMax > this.resetMinMax){
-            this.values.minFps = fps;
-            this.values.maxFps = fps;
+            this.values.minFps_10Seconds = fps;
+            this.values.maxFps_10Seconds = fps;
             this.accResetMinMax = 0;
         }
 

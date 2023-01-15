@@ -10,7 +10,7 @@ import { RotateComponent } from "../Component/RotateComponent";
 
 export class MiceTestWorldPreset extends WorldPreset{
  
-    constructor(engine : ThreeEngine, world : World, data : HTMLElement){
+    constructor(engine : ThreeEngine, world : World, htmlViews : HTMLElement[]){
         super();
  
         const scope = this; 
@@ -68,10 +68,16 @@ export class MiceTestWorldPreset extends WorldPreset{
         // });
 
         //this.engine.loadGLB('assets/models/mice-example/mice-bg.glb');
-        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 100000 );
-        let screen = engine.addScreen(WorldScreen, data, world);
-        screen.setName('MiceTestWorldPreset');
-        screen.setOrbitControls(camera);
+
+        for(let i = 0; i < htmlViews.length; ++i){
+            let htmlView =htmlViews[i];
+            var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 100000 );
+            let screen = engine.addScreen(WorldScreen, htmlView, world);
+            screen.setName('MiceTestWorldPreset');
+            screen.setOrbitControls(camera);
+        }
+ 
+
     }
 
  

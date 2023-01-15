@@ -2,19 +2,12 @@ import { type } from "os";
 import * as THREE from "three";
 import { ColorRepresentation } from "three";
 
-enum eQuality{
-    low,
-    lowMedium,
-    medium,
-    mediumHigh,
-    high,
-}
-
+ 
 export class ShadowParam  {
     castShadow : boolean = true;
-    shadowRange : number = -0.0001; 
+    shadowRange : number = 17; 
     near: number = 0.1;
-    far: number = 200; 
+    far: number = 500; 
     bias: number = -0.0001;  
     normalBias : number= 0.001; 
     mapSize : number = 1024;

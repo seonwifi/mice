@@ -10,10 +10,10 @@ export class MiceActivity extends Activity {
         super();
     } 
 
-    init(viewDock : HTMLElement ){
+    init(htmlViews : HTMLElement[] ){
         const scope = this;
  
-        this.newWorld(MiceTestWorldPreset, viewDock);
+        this.newWorld(MiceTestWorldPreset, htmlViews);
         this.showDebug();
 
         this.requestDebugGUI((panel : dat.GUI)=>{
@@ -21,7 +21,7 @@ export class MiceActivity extends Activity {
             const reload = {
                 reloadMap : function (){
                     scope.removeAllWorld();
-                    scope.newWorld(MiceTestWorldPreset, viewDock);
+                    scope.newWorld(MiceTestWorldPreset, htmlViews);
                 }
             }
 

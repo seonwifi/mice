@@ -7,8 +7,8 @@ export class ScreenManager {
 
     }
   
-    add<T extends WorldScreen>(type: (new (viewDock? : HTMLElement | null, sceneSource? : World  | undefined) => T), viewDock? : HTMLElement | null, world? : World  | undefined) : T {
-        let screen = new type(viewDock, world);
+    add<T extends WorldScreen>(type: (new (viewDock? : HTMLElement | null, sceneSource? : World  | undefined) => T), htmlView? : HTMLElement | null, world? : World  | undefined) : T {
+        let screen = new type(htmlView, world);
         this.screens.push(screen);
         return screen;
     }

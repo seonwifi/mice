@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { WebGLRenderer } from "three";
+import { WebGLRenderer, WebGLRendererParameters } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RenderUpdateData } from "../Common/EngineDefine";
 import { IUpdate } from "../Common/IUpdate";
@@ -9,16 +9,16 @@ import { World } from "../World/World";
 
 
 export class WorldScreen implements IUpdate<RenderUpdateData>{
-    viewDock? : HTMLElement | null = undefined;
+    htmlView? : HTMLElement | null = undefined;
     renderer? : GLRenderer;
     controls? : OrbitControls;
     name : string = '';
     _onWindowResize : any;
 
-    constructor(viewDock? : HTMLElement | null, sceneSource? : World  | undefined){
+    constructor(htmlView? : HTMLElement | null, sceneSource? : World  | undefined){
 
         
-        this.viewDock = viewDock;
+        this.htmlView = htmlView;
         this.init();
         this.setRenderScene(sceneSource);
         sceneSource?.addRenderUpdate(this);
@@ -59,7 +59,7 @@ export class WorldScreen implements IUpdate<RenderUpdateData>{
 
         this.controls?.dispose();
         this.renderer?.dispose();
-        this.viewDock = undefined; 
+        this.htmlView = undefined; 
     }
 
     isWorld(destWorld : World) :boolean{
@@ -71,7 +71,22 @@ export class WorldScreen implements IUpdate<RenderUpdateData>{
     }
 
     init(){ 
-        this.renderer = new GLRenderer({ antialias: true }, this.viewDock);
+
+        let  parameters : WebGLRendererParameters = {
+            antialias: true,
+            
+        }
+
+        //htmlView 가 HTMLCanvasElement 이면 직접 그리는 세팅으로 사용  그렇지 않으면 부모로 사용 
+        let parent : HTMLElement | undefined | null = undefined; 
+        if(this.htmlView instanceof HTMLCanvasElement){
+            parameters.canvas = this.htmlView as HTMLCanvasElement;
+        }
+        else{
+            parent = this.htmlView;
+        }
+
+        this.renderer = new GLRenderer(parameters, parent);
     }
 
     setOrbitControls(cam: THREE.Camera): boolean{
@@ -97,7 +112,7 @@ export class WorldScreen implements IUpdate<RenderUpdateData>{
         return true;
     }
 
-    onWindowResize(){
+    onWindowResize(e : UIEvent){
 
         // this.renderer?.getWorld()?.traverse((item)=> {
         //     if(item instanceof THREE.PerspectiveCamera){
@@ -106,12 +121,25 @@ export class WorldScreen implements IUpdate<RenderUpdateData>{
         //         cam.updateProjectionMatrix();
         //     }
         // });
- 
-        this.renderer?.setSize( window.innerWidth, window.innerHeight );
+        if(!this.renderer){
+            return;
+        }
+
+        let dom = this.renderer.getDomElement();
+        if(this.htmlView){ 
+             let boundingRect = this.htmlView.getBoundingClientRect();
+            //this.renderer?.setSize( boundingRect.width, boundingRect.height );
+           this.renderer?.setSize( this.htmlView.clientWidth, this.htmlView.clientHeight );
+           //this.renderer?.setSize( window.innerWidth, window.innerHeight);
+        }
+        else{
+            //this.renderer?.setSize( window.innerWidth, window.innerHeight);
+        }
+        
     }
 
-    setRenderScene(sceneSource : World  | undefined){
-        this.renderer?.setScene(sceneSource);
+    setRenderScene(world : World  | undefined){
+        this.renderer?.setScene(world);
     }
 
     //override IUpdate

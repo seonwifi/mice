@@ -55,7 +55,7 @@ export default function Home() {
             </h2>
             <p className={inter.className}>
             모바일에서 성능 하락폭이 적게 나타남 <br/>
-            단점: 개발양이 가장 많을 수 있음
+            단점: 개발 기간이 가장 길 수 있음
 
             </p>
           </a>

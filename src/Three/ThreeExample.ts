@@ -24,10 +24,11 @@ export class ThreeExample{
             bgPath + 'py.jpg', bgPath + 'ny.jpg',
             bgPath + 'pz.jpg', bgPath + 'nz.jpg'
         ];
-
+       
         scope.scene = new THREE.Scene();
         scope.rootObj = new THREE.Group(); 
         scope.scene.add( scope.rootObj );
+        this.loadCubeTexture(cubeTurls);
 
         var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 100000 );
         var renderer = new THREE.WebGLRenderer({ antialias: true });

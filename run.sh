@@ -1,3 +1,5 @@
+pm2 kill
+git pull
 npm install
 npm run build
-npm run start
+pm2 start npm --name "mice" -- start

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../../styles/Home.module.css'
  
-import MiceJSView, { eScreenView } from '../../src/components/threejs/MiceActivityView'
+import MiceJSView, { eScreenView } from '../../src/components/threejs/ThreeView'
 import BabylonView from '../../src/components/babylon/BabylonView'
 
 const inter = Inter({ subsets: ['latin'] }) 

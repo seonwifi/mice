@@ -57,15 +57,16 @@ export class BabylonExample {
             rootNode.scaling.scaleInPlace(3);
             // Create a FreeCamera, and set its position to {x: 0, y: 5, z: -10}
             //var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 0, -2), scene);
-            var camera = new BABYLON.ArcRotateCamera('camera1', 0, Math.PI / 2.5,5, new BABYLON.Vector3(0, 0, -10), scene);
-            //var postProcess = new BABYLON.TonemapPostProcess("tonemap", BABYLON.TonemappingOperator.Hable, 2.8, camera);
-            const runDebugger = async (scene: BABYLON.Scene) => {
-                await import("@babylonjs/inspector");
-                await import("@babylonjs/core/Debug/debugLayer");
-                scene.debugLayer!.show();
-              };
+            var camera = new BABYLON.ArcRotateCamera('camera1', 0, Math.PI / 2.5,5, new BABYLON.Vector3(0, 0, -0), scene);
+            camera.setPosition(new BABYLON.Vector3(0, 3, 7));
+            // //var postProcess = new BABYLON.TonemapPostProcess("tonemap", BABYLON.dTonemappingOperator.Hable, 2.8, camera);
+            // const runDebugger = async (scene: BABYLON.Scene) => {
+            //     await import("@babylonjs/inspector");
+            //     await import("@babylonjs/core/Debug/debugLayer");
+            //     scene.debugLayer!.show();
+            //   };
             
-            runDebugger(scene);
+            //runDebugger(scene);
 
             //standard camera setting
             camera.wheelPrecision = 15;
@@ -80,7 +81,7 @@ export class BabylonExample {
             camera.lowerRadiusLimit = 1.112;
             //how far can the camera go from the player
             camera.upperRadiusLimit = 30;
-            camera.radius = 0;
+ 
             camera.attachControl();
             camera.parent = rootNode;
 
@@ -126,10 +127,10 @@ export class BabylonExample {
             shadowGenerator.contactHardeningLightSizeUVRatio = 0.12;
  
             let rootUrl = 'assets/models/mice-example/';
-            scope.loadModel(rootUrl,  "company.glb", scene, rootNode, shadowGenerator, new BABYLON.Vector3(15,0,0)); 
+            scope.loadModel(rootUrl,  "company.glb", scene, rootNode, shadowGenerator, new BABYLON.Vector3(0,0,-15)); 
             scope.loadModel(rootUrl,  "company_2.glb", scene, rootNode, shadowGenerator,new BABYLON.Vector3(-15,0,0)); 
             scope.loadModel(rootUrl,  "Pop_Soft.glb", scene, rootNode, shadowGenerator,new BABYLON.Vector3(0,0,15)); 
-            scope.loadModel(rootUrl,  "Tobortec.glb", scene, rootNode, shadowGenerator, new BABYLON.Vector3(0,0,-15)); 
+            scope.loadModel(rootUrl,  "Tobortec.glb", scene, rootNode, shadowGenerator, new BABYLON.Vector3(15,0,0) ); 
             scope._loadCharacterAssets(scene, rootNode, camera, shadowGenerator); 
  
             // Return the created scene
@@ -166,7 +167,7 @@ export class BabylonExample {
             if(scene.length > 0){
                 if(pos){
                     scene[0].position.copyFrom(pos);
-                    
+                     
                 }
 
                 scene[0].parent = rootNode;

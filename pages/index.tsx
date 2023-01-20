@@ -33,7 +33,7 @@ export default function Home() {
             style={{ margin:'10px', fontSize: '1.2rem', padding:'5px'}}
           >
             <h2>
-             유니티 MICE 샘플  
+              유니티 MICE 샘플  
             </h2>
             <p className={inter.className}>
                모바일에서는 srp, pc 에서는 urp 사용 권장됨

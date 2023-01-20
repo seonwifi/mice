@@ -36,7 +36,9 @@ export default function Home() {
              유니티 MICE 샘플  
             </h2>
             <p className={inter.className}>
-              유니티 버전  샘플 보기
+               모바일에서는 srp pc 에서는 urp 사용 권장됨
+               srp 이점: 로딩 속도 향상및 랜더링 속도 향상 있음
+               srp 단점: 퀄리티가 떨어짐
             </p>
           </a>
 
@@ -49,10 +51,10 @@ export default function Home() {
             style={{ margin:'10px', fontSize: '1.2rem', padding:'5px'}}
           >
             <h2 className={inter.className}>
-            Three JS MICE 샘플  
+            Three JS MICE 샘플   
             </h2>
             <p className={inter.className}>
-               Three JS 버전 샘플 보기
+            단점: 개발양이 가장 많을 수 있음
             </p>
           </a>
 

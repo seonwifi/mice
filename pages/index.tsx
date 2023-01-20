@@ -36,9 +36,9 @@ export default function Home() {
              유니티 MICE 샘플  
             </h2>
             <p className={inter.className}>
-               모바일에서는 srp pc 에서는 urp 사용 권장됨
+               모바일에서는 srp, pc 에서는 urp 사용 권장됨
                srp 이점: 로딩 속도 향상및 랜더링 속도 향상 있음
-               srp 단점: 퀄리티가 떨어짐
+              <br></br>srp 단점: 퀄리티가 떨어짐
             </p>
           </a>
 
@@ -54,7 +54,9 @@ export default function Home() {
             Three JS MICE 샘플   
             </h2>
             <p className={inter.className}>
+            모바일에서 성능 하락폭이 적게 나타남 <br/>
             단점: 개발양이 가장 많을 수 있음
+
             </p>
           </a>
 
@@ -70,7 +72,7 @@ export default function Home() {
             Babylon MICE 샘플  
             </h2>
             <p className={inter.className}>
-             모바일에서 성능 하락 폭이 상대적으로 크게 나타남
+             모바일에서 성능 하락 폭이 크게 나타남
             </p>
           </a>
         </div>

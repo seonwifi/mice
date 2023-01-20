@@ -1,5 +1,5 @@
-import { Scene, ActionManager, ExecuteCodeAction, Observer, Scalar } from '@babylonjs/core';
-import * as BABYLON from '@babylonjs/core';
+import { Scene, ActionManager, ExecuteCodeAction, Observer, Scalar } from 'babylonjs';
+import * as BABYLON from 'babylonjs';
 
 export class PlayerInput {
 

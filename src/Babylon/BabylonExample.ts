@@ -1,11 +1,10 @@
-import * as BABYLON from '@babylonjs/core';
-import { Matrix, Mesh, MeshBuilder, Quaternion, SceneLoader, Vector3 } from '@babylonjs/core';
-import { TransformNode } from '@babylonjs/core/Meshes/transformNode';
-import "@babylonjs/loaders/glTF";
+import * as BABYLON from 'babylonjs';
+import 'babylonjs-loaders'; 
 import { Camera } from '@mui/icons-material';
  
 import { Player } from './characterController';
 import { PlayerInput } from './inputController';
+import { Matrix, Mesh, MeshBuilder, Quaternion, SceneLoader, TransformNode, Vector3 } from 'babylonjs';
  
 
 class CustomLoadingScreen implements BABYLON.ILoadingScreen {

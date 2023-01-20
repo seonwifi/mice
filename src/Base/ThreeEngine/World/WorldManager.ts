@@ -1,7 +1,8 @@
+import { Activity } from "../Activity/Activity";
 import { eWorldRemoveScreenState } from "../Common/EngineDefine";
 import { ThreeEngine } from "../Engine/ThreeEngine";
 import { World } from "./World";
-import { WorldPreset } from "./WorldPreset";
+import { IWorldPreset } from "./WorldPreset";
 
 export class WorldManager{
     activeWorlds : Array<World> = [];
@@ -11,11 +12,10 @@ export class WorldManager{
          
     }
  
-    add<INIT_DATA, T extends WorldPreset>( type: (new (engine : ThreeEngine, world : World , data : INIT_DATA | any | undefined) => T), engine : ThreeEngine, data? : INIT_DATA | any | undefined) : World {
-        let world = new World(engine);
-        let worldComp = new type(engine, world, data);
- 
+    add<INIT_DATA, T extends IWorldPreset>( type: (new (activity : Activity, engine : ThreeEngine, world : World , data : INIT_DATA | any | undefined | null) => T), activity : Activity, engine : ThreeEngine, data? : INIT_DATA| any | undefined | null) : World {
+        let world = new World(activity, engine);
         this.worlds.push(world);
+        world.initPreset(type, data); 
         return world;
     }
 

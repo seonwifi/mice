@@ -1,3 +1,4 @@
+import { Activity } from "../Activity/Activity";
 import { World } from "../World/World";
 import { WorldScreen } from "./WorldScreen";
 
@@ -7,8 +8,8 @@ export class ScreenManager {
 
     }
   
-    add<T extends WorldScreen>(type: (new (viewDock? : HTMLElement | null, sceneSource? : World  | undefined) => T), htmlView? : HTMLElement | null, world? : World  | undefined) : T {
-        let screen = new type(htmlView, world);
+    add<T extends WorldScreen>(type: (new (activity : Activity, viewDock? : HTMLElement | null, sceneSource? : World  | undefined) => T), activity : Activity, htmlView? : HTMLElement | null, world? : World  | undefined) : T {
+        let screen = new type(activity, htmlView, world);
         this.screens.push(screen);
         return screen;
     }

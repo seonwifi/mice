@@ -1,4 +1,4 @@
-import { Behavior, BehaviorUpdateData } from "../../ThreeEngine/Component/Behavior";
+import { Behavior, BehaviorUpdateData } from "../../Base/ThreeEngine/Component/Behavior";
 
 
 export class RotateComponent extends Behavior{

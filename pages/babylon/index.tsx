@@ -2,8 +2,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../../styles/Home.module.css'
-import Test from './test'
+ 
 import MiceJSView, { eScreenView } from '../../src/components/threejs/MiceActivityView'
+import BabylonView from '../../src/components/babylon/BabylonView'
 
 const inter = Inter({ subsets: ['latin'] }) 
 export default function Home() {
@@ -17,8 +18,8 @@ export default function Home() {
       </Head>
       <main className={styles.main} style={{justifyContent: 'start', padding:'0px'}}>
         <div  style={{width:'100%', height:'100%' }}>
-          <MiceJSView  screenView = {eScreenView.singleScreen}> 
-          </MiceJSView>
+          <BabylonView > 
+          </BabylonView>
         </div>
 
       </main>

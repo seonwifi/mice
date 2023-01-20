@@ -3,8 +3,8 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { WorldManager } from "../World/WorldManager";
-import { ScreenManager } from "../Screen/ScreenManager";
+import { WorldManager } from "../Base/ThreeEngine/World/WorldManager";
+import { ScreenManager } from "../Base/ThreeEngine/Screen/ScreenManager";
  
 
 export class ThreeEngineTest{
@@ -16,17 +16,30 @@ export class ThreeEngineTest{
     constructor(){ 
     }
 
-    init(viewDock: any){
-        const scope = this;
+    async runAsync(viewDock: any){
+
+        const scope = this; 
+ 
+        const bgPath = 'assets/textures/cube/Park3Med/';
+        const cubeTurls = [
+            bgPath + 'px.jpg', bgPath + 'nx.jpg',
+            bgPath + 'py.jpg', bgPath + 'ny.jpg',
+            bgPath + 'pz.jpg', bgPath + 'nz.jpg'
+        ];
+
         scope.scene = new THREE.Scene();
+        scope.rootObj = new THREE.Group(); 
+        scope.scene.add( scope.rootObj );
+
         var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 100000 );
         var renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.shadowMap.autoUpdate = true;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.VSMShadowMap; 
+        renderer.toneMappingExposure = 2;
+        renderer.setPixelRatio( window.devicePixelRatio );//안해주면 모바일에서 흐리게 보임
 
-        scope.controls = new OrbitControls( camera, renderer.domElement );
-        //this.controls.addEventListener( 'change', render );
-        scope.controls.target.set( 0, 0.2, 0 );
-        camera.position.set(-10.041, 10.9, -0.01);
-        scope.controls.update(); 
+        renderer.setSize( window.innerWidth, window.innerHeight);
 
         const directionalLight1 = new THREE.DirectionalLight( 0xffeeff, 1.8 );
         directionalLight1.position.set( 30, 60, 30 );
@@ -44,54 +57,67 @@ export class ThreeEngineTest{
         directionalLight1.shadow.radius = 3;
         directionalLight1.shadow.blurSamples = 8;
         directionalLight1.shadow.normalBias = 0.001;
-       //
         scope.scene.add( directionalLight1 );
-        // const helper = new THREE.CameraHelper(directionalLight1.shadow.camera)
-        // scope.scene.add(helper);
 
         const ambient = new THREE.AmbientLight( 0x555555 );
         scope.scene.add( ambient );
-        
-        renderer.shadowMap.autoUpdate = true;
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.VSMShadowMap;
-        //renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 2;
-        renderer.setPixelRatio( window.devicePixelRatio );//안해주면 모바일에서 흐리게 보임
 
-        renderer.setSize( window.innerWidth, window.innerHeight);
-        viewDock.appendChild( renderer.domElement );
-         //var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-         //var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-         //var cube = new THREE.Mesh( geometry, material );
-         //scope.scene.add( cube );
+        const material = new THREE.MeshPhongMaterial( { color: 0xbbbbbb  } );
+        const planeSize : number = 400;
+        const geometry = new THREE.PlaneGeometry( planeSize, planeSize );
+        geometry.rotateX(  -Math.PI / 2 );
+        const mesh = new THREE.Mesh( geometry, material );
+        mesh.receiveShadow = true; 
+        scope.rootObj?.add(mesh);
 
-         scope.rootObj = new THREE.Group();
-        //  scope.rootObj.scale.x = 0.01;
-        //  scope.rootObj.scale.y = 0.01;
-        //  scope.rootObj.scale.z = 0.01;
+        let s = 0.012;
+        let loadScale = new THREE.Vector3(s, s, s);
+        scope.loadGLB('assets/models/mice-example/company.glb', (object)=>{ 
+            object.position.copy(new THREE.Vector3(15,0,0)); 
+        });
 
-         scope.scene.add( scope.rootObj );
-         camera.position.z = 5;
+ 
+        scope.loadGLB('assets/models/mice-example/company_2.glb', (object)=>{ 
+            object.position.copy(new THREE.Vector3(-15,0,0));
+        });
 
-         const material = new THREE.MeshPhongMaterial( { color: 0xbbbbbb  } );
-         const planeSize : number = 400;
-         const geometry = new THREE.PlaneGeometry( planeSize, planeSize );
-         geometry.rotateX(  -Math.PI / 2 );
-         const mesh = new THREE.Mesh( geometry, material );
-         mesh.receiveShadow = true;
-         
-         scope.rootObj?.add(mesh);
+        scope.loadFBX('assets/models/mice-example/Pop_Soft.FBX', (object)=>{
+            object.scale.copy(loadScale);
+            object.position.copy(new THREE.Vector3(0,0,15));
+        });
+ 
+        scope.loadFBX('assets/models/mice-example/Tobortec.FBX', (object)=>{
+            object.scale.copy(loadScale);
+            object.position.copy(new THREE.Vector3(0,0,-15));
+        }); 
 
+        function onWindowResize() {
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize( window.innerWidth, window.innerHeight );
+
+        }
+        window.addEventListener( 'resize', onWindowResize );
+  
+        scope.controls = new OrbitControls( camera, renderer.domElement );
+        scope.controls.target.set( 0, 0.2, 0 );
+        camera.position.set(-10.041, 10.9, -0.01);
+        scope.controls.update(); 
+        scope.scene.add( camera );
+  
+        viewDock.appendChild( renderer.domElement ); 
+        camera.position.z = 5;
+ 
          let renderScene = scope.scene;
         var animate = function () {
-          requestAnimationFrame( animate );
-          //cube.rotation.x += 0.01;
-          //cube.rotation.y += 0.01;
+          requestAnimationFrame( animate ); 
           if(renderScene){
             renderer.render( renderScene, camera );
           }
         };
+
         animate();
     }
 

@@ -8,8 +8,9 @@ import { ScreenManager } from "../Screen/ScreenManager";
 import { World } from "../World/World";
 import { GLRenderer } from "../Renderer/GLRenderer";
 import { WorldScreen } from "../Screen/WorldScreen";
-import { WorldPreset } from "../World/WorldPreset";
+import { IWorldPreset } from "../World/WorldPreset";
 import { eWorldRemoveScreenState } from "../Common/EngineDefine";
+import { Activity } from "../Activity/Activity";
   
 export class ThreeEngine{
  
@@ -26,13 +27,13 @@ export class ThreeEngine{
     }
  
     // getComponent<T extends IComponent>(constructor:{new ():T}): T {
-    addWorld<INIT_DATA, T extends WorldPreset>( type: (new (engine : ThreeEngine, world : World , data? : INIT_DATA | any | undefined) => T), data? : INIT_DATA | any | undefined) : World {
-       let scene = this.worldManager.add(type, this, data);
+    addWorld<INIT_DATA, T extends IWorldPreset>( type: (new (activity : Activity, engine : ThreeEngine, world : World , data? : INIT_DATA | any | undefined | null) => T), activity : Activity, data? : INIT_DATA | any | undefined | null) : World {
+       let scene = this.worldManager.add(type, activity, this, data);
         return scene;
     }
 
-    addScreen<T extends WorldScreen>(type: (new (viewDock? : HTMLElement | null, sceneSource? : World  | undefined) => T), htmlView? : HTMLElement | null, world? : World  | undefined) : T { 
-        let screen = this.screenManager.add(type, htmlView, world);
+    addScreen<T extends WorldScreen>(type: (new (activity : Activity, iewDock? : HTMLElement | null, sceneSource? : World  | undefined) => T), activity : Activity, htmlView? : HTMLElement | null, world? : World  | undefined) : T { 
+        let screen = this.screenManager.add(type, activity, htmlView, world);
         return screen;
     }
 

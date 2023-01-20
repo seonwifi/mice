@@ -1,4 +1,4 @@
-import { Object3D, Scene,  } from "three";
+import { Object3D, Scene  } from "three";
 import * as THREE from "three";
 import { eScenePlayState, RenderUpdateData } from "../Common/EngineDefine";
 import { UpdateManager } from "../Common/UpdateManager";
@@ -16,7 +16,13 @@ import { DeltaTimer } from "../Common/DeltaTimer";
 import { ThreeJsStatic } from "../Common/ThreeJsStatic";
 import { FPSManager } from "../Common/FPSManager";
 import { Timer } from "../Common/Timer";
- 
+import { Activity } from "../Activity/Activity";
+import { DebugGUIFolders } from "../Debug/DebugGUI";
+import { WorldDebugger } from "../Debug/WorldDebug";
+import { DebugUpdater } from "../Debug/DebugUpdater";
+import * as dat from 'lil-gui';
+import { IWorldPreset } from "./WorldPreset";
+
 export class World
 {
     private     name : string = '';
@@ -35,16 +41,49 @@ export class World
     private     updateCount : number = 0;
     private     playTime : number = 0;
     private     timer = new Timer();
+    private     preset?: IWorldPreset;
 
-    constructor(engine : ThreeEngine){
+    protected   activity? : Activity;
+
+
+    worldDebugger? : WorldDebugger;
+
+    constructor(activity : Activity, engine : ThreeEngine){
+        this.activity = activity;
         this.engine = engine;
-        let scope = this; 
+        let scope = this;
+
+        if(activity.isEnableDebug()){
+            activity.requestFolders((debugUpdate? : DebugUpdater, folders? : DebugGUIFolders)=>{
+                if(!debugUpdate || !folders){
+                    return;
+                }
+
+                this.worldDebugger = new WorldDebugger(activity, this, debugUpdate, folders);
+            } );
+        }
+         
         if(scope.playState === eScenePlayState.Play){
              this.startUpdate();
         } 
 
         this.timer.start();
      }
+     
+     initPreset<INIT_DATA, T extends IWorldPreset>( type: (new (activity : Activity, engine : ThreeEngine, world : World , data : INIT_DATA| any | undefined | null) => T), data? : INIT_DATA | any | undefined | null){
+        if( this.preset ){
+            console.log('The world preset has already been initialized.');
+            return;
+        }
+        if(this.activity && this.engine){
+            this.preset = new type(this.activity, this.engine, this, data);
+        }
+     }
+
+     requestDebugGUI(callback : (debugUpdate? : DebugUpdater, folder? : dat.GUI)=>void) {
+        const scope = this;
+        scope.worldDebugger?.requestDebugGUI(callback); 
+    }
 
      setName (name : string){
         this.name = name;
@@ -55,6 +94,9 @@ export class World
 
      dispose(){
         this.pause();
+        if(this.preset){
+            this.preset
+        }
         //this.scene?.dispose();
 
         this.objectUpdateManager.removeAll();
@@ -66,6 +108,9 @@ export class World
         this.rootObj = undefined;
         this.renderCamera = undefined; 
         this.engine = undefined; 
+        this.activity = undefined; 
+
+        this.worldDebugger?.dispose();
     }
 
      createSceneCamera() : THREE.Camera {

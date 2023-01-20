@@ -1,10 +1,16 @@
 import * as THREE from "three";
+import { Euler } from "three";
+import { Vector3 } from "three";
 import { WebGLRenderer, WebGLRendererParameters } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { Activity } from "../Activity/Activity";
+import { DebugGUIFolders } from "../Debug/DebugGUI";
+import { DebugUpdater } from "../Debug/DebugUpdater";
 import { RenderUpdateData } from "../Common/EngineDefine";
 import { IUpdate } from "../Common/IUpdate";
 import { GLRenderer } from "../Renderer/GLRenderer";
 import { World } from "../World/World";
+import { WorldScreenDebug } from "../Debug/WorldScreenDebug";
 
 
 
@@ -14,16 +20,27 @@ export class WorldScreen implements IUpdate<RenderUpdateData>{
     controls? : OrbitControls;
     name : string = '';
     _onWindowResize : any;
-
-    constructor(htmlView? : HTMLElement | null, sceneSource? : World  | undefined){
-
-        
+    worldScreenDebug? : WorldScreenDebug;
+    
+    constructor(activity : Activity, htmlView? : HTMLElement | null, sceneSource? : World  | undefined){
+ 
         this.htmlView = htmlView;
         this.init();
         this.setRenderScene(sceneSource);
         sceneSource?.addRenderUpdate(this);
         this._onWindowResize = this.onWindowResize.bind(this);
         window.addEventListener( 'resize', this._onWindowResize );
+        const scope = this;
+
+        activity.requestFolders((debugUpdate? : DebugUpdater, rootFolder? : DebugGUIFolders)=>{
+            if(!debugUpdate || !rootFolder){
+                return;
+            }
+
+            if(!this.worldScreenDebug){
+                this.worldScreenDebug = new WorldScreenDebug(this, debugUpdate, rootFolder);
+            }
+        });
     }
 
     setName (name : string){
@@ -54,7 +71,7 @@ export class WorldScreen implements IUpdate<RenderUpdateData>{
      }
 
     dispose(){
- 
+        this.worldScreenDebug?.dispose();
         window.removeEventListener( 'resize', this._onWindowResize );
 
         this.controls?.dispose();
@@ -89,7 +106,7 @@ export class WorldScreen implements IUpdate<RenderUpdateData>{
         this.renderer = new GLRenderer(parameters, parent);
     }
 
-    setOrbitControls(cam: THREE.Camera): boolean{
+    setOrbitControls(cam: THREE.Camera, pos : Vector3, target : Vector3): boolean{
         const scope = this;
 
         let scene = this.renderer?.getScene();
@@ -101,11 +118,12 @@ export class WorldScreen implements IUpdate<RenderUpdateData>{
         if(!domElem){
             return false;
         }
- 
+        cam.position.copy(pos);
+        //cam.rotation.copy(rot);
         scope.controls = new OrbitControls( cam, domElem );
         //this.controls.addEventListener( 'change', render );
-        scope.controls.target.set( 0, 0.2, 0 );
-        cam.position.set(-10.041, 10.9, -0.01);
+        scope.controls.target.copy(target);
+       
         scope.controls.update(); 
         scope.renderer?.setCamera(cam);
   

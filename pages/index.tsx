@@ -23,6 +23,8 @@ export default function Home() {
         </div>
 
         <div   style={{display: "flex", marginTop:'200px'}} >
+
+          {/* babylone */}
           <a
             href="unity/index.html"
             className={styles.card}
@@ -37,7 +39,8 @@ export default function Home() {
               유니티 버전  샘플 보기
             </p>
           </a>
-          
+
+          {/* babylone */}
           <a
             href="/threejs"
             className={styles.card}
@@ -52,7 +55,22 @@ export default function Home() {
                Three JS 버전 샘플 보기
             </p>
           </a>
- 
+
+          {/* babylone */}
+          <a
+            href="/babylon"
+            className={styles.card}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ margin:'10px', fontSize: '1.2rem', padding:'5px'}}
+          >
+            <h2 className={inter.className}>
+            Babylon MICE 샘플  
+            </h2>
+            <p className={inter.className}>
+             Babylon JS 버전 샘플 보기
+            </p>
+          </a>
         </div>
       </main>
     </>

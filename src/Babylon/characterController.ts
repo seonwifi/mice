@@ -83,7 +83,7 @@ export class Player extends TransformNode {
     public tutorial_dash = false;
     public tutorial_jump = false;
 
-    constructor(assets : any, scene: Scene, shadowGenerator: ShadowGenerator, input?: PlayerInput, camera?:  ArcRotateCamera) {
+    constructor(assets : any, scene: Scene, shadowGenerator?: ShadowGenerator, input?: PlayerInput, camera?:  ArcRotateCamera) {
         super("player", scene);
         this.scene = scene;
         this.camera = camera;
@@ -106,7 +106,7 @@ export class Player extends TransformNode {
  
         // this._createSparkles(); //create the sparkler particle system
          this._setUpAnimations();
-         shadowGenerator.addShadowCaster(assets.mesh);
+         shadowGenerator?.addShadowCaster(assets.mesh);
          //this._setupPlayerCamera();
          this._input = input; 
 

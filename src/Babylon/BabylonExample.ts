@@ -5,6 +5,7 @@ import { Camera } from '@mui/icons-material';
 import { Player } from './characterController';
 import { PlayerInput } from './inputController';
 import { Matrix, Mesh, MeshBuilder, Quaternion, SceneLoader, TransformNode, Vector3 } from 'babylonjs';
+import MobileDetect from 'mobile-detect';
  
 
 class CustomLoadingScreen implements BABYLON.ILoadingScreen {
@@ -29,6 +30,8 @@ export class BabylonExample {
         const scope = this;
         // Load the 3D engine
         scope.engine = new BABYLON.Engine(canvas, true, {preserveDrawingBuffer: true, stencil: true});
+        scope.engine.setHardwareScalingLevel(1 / window.devicePixelRatio);// 모바일 흐려짐 방지
+
         scope.engine.hideLoadingUI();
         let loadingScreenDiv = window.document.getElementById("loadingScreen");
         function customLoadingScreen() {
@@ -46,27 +49,21 @@ export class BabylonExample {
         scope.engine!.loadingScreen = loadingScreen;
 
         scope.engine!.displayLoadingUI();
- 
+        var md = new MobileDetect(window.navigator.userAgent);
 
         // CreateScene function that creates and return the scene
         var createScene = function(){
             // Create a basic BJS Scene object
             var scene = new BABYLON.Scene(scope.engine!);
             let rootNode = new TransformNode('root', scene);
+            
             rootNode.scaling.scaleInPlace(3);
             // Create a FreeCamera, and set its position to {x: 0, y: 5, z: -10}
             //var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 0, -2), scene);
             var camera = new BABYLON.ArcRotateCamera('camera1', 0, Math.PI / 2.5,5, new BABYLON.Vector3(0, 0, -0), scene);
-            camera.setPosition(new BABYLON.Vector3(0, 3, 7));
-            // //var postProcess = new BABYLON.TonemapPostProcess("tonemap", BABYLON.dTonemappingOperator.Hable, 2.8, camera);
-            // const runDebugger = async (scene: BABYLON.Scene) => {
-            //     await import("@babylonjs/inspector");
-            //     await import("@babylonjs/core/Debug/debugLayer");
-            //     scene.debugLayer!.show();
-            //   };
-            
-            //runDebugger(scene);
-
+            camera.setPosition(new BABYLON.Vector3(0, 3, 7)); 
+           //scene.debugLayer!.show();
+ 
             //standard camera setting
             camera.wheelPrecision = 15;
             camera.checkCollisions = true;
@@ -118,12 +115,34 @@ export class BabylonExample {
             ground.receiveShadows = true;
             ground.material = new BABYLON.StandardMaterial("ground", scene);	 
   
-            let shadowGenerator = new BABYLON.ShadowGenerator(8192, light, false);
-            shadowGenerator.filter = BABYLON.ShadowGenerator.FILTER_PCSS;
-            shadowGenerator.filteringQuality = BABYLON.ShadowGenerator.QUALITY_HIGH; 
-            shadowGenerator.blurBoxOffset = 1;
-            shadowGenerator.blurScale = 2;
-            shadowGenerator.contactHardeningLightSizeUVRatio = 0.12;
+            
+            let shadowGenerator : BABYLON.ShadowGenerator;
+
+            if(md.mobile()){
+                shadowGenerator = new BABYLON.ShadowGenerator(4096, light, false);
+                shadowGenerator.filter = BABYLON.ShadowGenerator.FILTER_NONE; 
+                shadowGenerator.darkness = 0.39;
+            }
+            else{
+                    shadowGenerator = new BABYLON.ShadowGenerator(8192, light, false);
+
+                {
+                    shadowGenerator.filter = BABYLON.ShadowGenerator.FILTER_PCF;
+                    shadowGenerator.filteringQuality = BABYLON.ShadowGenerator.QUALITY_HIGH;  
+                   
+                }
+
+                {
+
+                    // shadowGenerator.filteringQuality = BABYLON.ShadowGenerator.QUALITY_HIGH; 
+                    // shadowGenerator.blurBoxOffset = 1;
+                    // shadowGenerator.blurScale = 2;
+                    // shadowGenerator.contactHardeningLightSizeUVRatio = 0.12;
+                }
+
+            }
+
+ 
  
             let rootUrl = 'assets/models/mice-example/';
             scope.loadModel(rootUrl,  "company.glb", scene, rootNode, shadowGenerator, new BABYLON.Vector3(0,0,-15)); 
@@ -244,7 +263,7 @@ export class BabylonExample {
  
                     mesh.receiveShadows = false;
                     mesh.checkCollisions = false; 
-                    shadowGenerator!.addShadowCaster(mesh);
+                    shadowGenerator?.addShadowCaster(mesh);
  
                 }
 
@@ -265,7 +284,7 @@ export class BabylonExample {
     initCharacterController(assets : any, camera : BABYLON.ArcRotateCamera, scene : BABYLON.Scene, shadowGenerator? : BABYLON.ShadowGenerator, rootNode? : TransformNode){
         
        this._input = new PlayerInput(scene); //detect keyboard/mobile inputs
-        this._player = new Player(assets, scene, shadowGenerator!, this._input, camera);
+        this._player = new Player(assets, scene, shadowGenerator, this._input, camera);
         this._player.activatePlayerCamera();
         if(rootNode){
             this._player.parent = rootNode;

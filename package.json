@@ -31,6 +31,7 @@
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.1",
     "lil-gui": "^0.17.0",
+    "mobile-detect": "^1.4.5",
     "next": "13.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

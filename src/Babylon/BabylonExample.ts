@@ -21,6 +21,7 @@ class CustomLoadingScreen implements BABYLON.ILoadingScreen {
     }
   }
 
+  //모바일에서 성능 하락이 큼
 export class BabylonExample {
     engine? : BABYLON.Engine;
     private _input?: PlayerInput;

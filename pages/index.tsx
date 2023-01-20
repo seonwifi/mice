@@ -72,7 +72,7 @@ export default function Home() {
             Babylon MICE 샘플  
             </h2>
             <p className={inter.className}>
-             모바일에서 성능 하락 폭이 크게 나타남
+             모바일에서 성능 하락 있음
             </p>
           </a>
         </div>

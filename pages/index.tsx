@@ -68,7 +68,7 @@ export default function Home() {
             Babylon MICE 샘플  
             </h2>
             <p className={inter.className}>
-             Babylon JS 버전 샘플 보기
+             모바일에서 성능 하락 폭이 상대적으로 크게 나타남
             </p>
           </a>
         </div>
